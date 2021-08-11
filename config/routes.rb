@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
-  resources :game
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  resources :game, only: [:show] do
+    resources :board, only: [:index]
+    resources :player_moves, only: [:create]
+  end
 end
