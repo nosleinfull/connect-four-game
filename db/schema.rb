@@ -16,13 +16,13 @@ ActiveRecord::Schema.define(version: 2021_08_11_035140) do
   enable_extension "plpgsql"
 
   create_table "games", force: :cascade do |t|
-    t.integer "player_one", null: false
-    t.integer "player_two", null: false
+    t.integer "player_one_id", null: false
+    t.integer "player_two_id", null: false
     t.jsonb "session_data", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["player_one"], name: "index_games_on_player_one", unique: true
-    t.index ["player_two"], name: "index_games_on_player_two", unique: true
+    t.index ["player_one_id"], name: "index_games_on_player_one_id", unique: true
+    t.index ["player_two_id"], name: "index_games_on_player_two_id", unique: true
   end
 
 end

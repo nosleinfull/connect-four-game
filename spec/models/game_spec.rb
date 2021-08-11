@@ -1,5 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Game, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context 'Validations' do
+    subject { build(:game) }
+    it { should validate_uniqueness_of(:player_one_id) }
+    it { should validate_uniqueness_of(:player_two_id) }
+  end
 end
