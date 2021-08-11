@@ -36,8 +36,8 @@ services:
     environment: &app_rails_env
       RAILS_ENV: 'development'
       REDIS_URL: 'redis://redis:6379/12'
-      HOSTNAME: 'postgres'
-      USERNAME: 'postgres'
+      DB_HOST: 'postgres'
+      DB_USER: 'postgres'
       DB_NAME: 'cfgame'
     tmpfs:
       - /tmp
