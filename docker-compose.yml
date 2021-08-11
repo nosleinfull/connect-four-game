@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:12.1-alpine
+    volumes:
+      - .docker/.psqlrc:/home/cfgame/.psqlrc
+      - postgres:/var/lib/postgresql/data
+      - ./log:/cfgame/log:cached
+    environment:
+      - PSQL_HISTFILE=/cfgame/log/.psql_history
+    ports:
+      - "5434:5432"
+
+  redis:
+    image: redis
+    volumes:
+      - redis:/data
+    ports:
+      - "6380:6379"
+
+  app_defaults: &app_defaults
+    stdin_open: true
+    tty: true
+    image: cfgame:1.0.0
+    user: cfgame:cfgame
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        USER_ID: 1000
+        GROUP_ID: 1000
+    depends_on:
+      - postgres
+      - redis
+    environment: &app_rails_env
+      RAILS_ENV: 'development'
+      REDIS_URL: 'redis://redis:6379/12'
+      HOSTNAME: 'postgres'
+      USERNAME: 'postgres'
+      DB_NAME: 'cfgame'
+    tmpfs:
+      - /tmp
+    volumes:
+      - .:/cfgame:cached
+      - bundle:/usr/local/bundle
+      - .docker/.psqlrc:/home/billing/.psqlrc:ro
+      - .docker/.irbrc:/home/billing/.irbrc:ro
+      - .docker/.pryrc:/home/billing/.pryrc:ro
+
+  app:
+    <<: *app_defaults
+    command: bash -c "rm -f shared/pids/puma.pid && bundle exec rails s -b '0.0.0.0'"
+    ports:
+      - "3010:3000"
+
+  runner:
+    <<: *app_defaults
+    command: /bin/bash
+    ports:
+      - '3000:3000'
+      - '7433:7433'
+
+volumes:
+  postgres:
+  redis:
+  bundle:
