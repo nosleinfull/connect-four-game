@@ -2,7 +2,8 @@
 
 module CfGame
   class ProcessPlayerMoves
-    def initialize(player_moves:, game:)
+    def initialize(player_id:, player_moves:, game:)
+      @player_id = player_id
       @player_moves = player_moves
       @game = game
     end
@@ -11,6 +12,6 @@ module CfGame
 
     private
 
-    attr_accessor :player_moves, :game
+    attr_accessor :player_id, :player_moves, :game
   end
 end
