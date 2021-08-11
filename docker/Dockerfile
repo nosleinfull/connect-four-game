@@ -3,6 +3,13 @@ FROM ruby:2.7.1
 ENV APP_HOME /cfgame
 ARG USER_ID
 ARG GROUP_ID
+ENV NODE_VERSION 12
+
+RUN curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | bash -
+
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
 
 # Installation of dependencies
 RUN apt-get update -qq \
@@ -12,6 +19,7 @@ RUN apt-get update -qq \
     # Needed for postgres gem
     libpq-dev \
     nodejs --no-install-recommends \
+    nodejs yarn \
     # The following are used to trim down the size of the image by removing unneeded data
   && apt-get clean autoclean \
   && apt-get autoremove -y \
@@ -43,6 +51,7 @@ WORKDIR $APP_HOME
 ADD Gemfile* $APP_HOME/
 
 RUN bundle install
+RUN rails webpacker:install
 
 # Copy over our application code
 ADD . $APP_HOME
