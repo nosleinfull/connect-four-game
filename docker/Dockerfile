@@ -21,19 +21,27 @@ RUN apt-get update -qq \
     /var/lib/cache \
     /var/lib/log
 
-# Create a directory for our application
-# and set it as the working directory
+# Create a directory for the app code
 RUN mkdir -p "$APP_HOME" \
   && chown -R $USER_ID:$GROUP_ID $APP_HOME \
   && addgroup --gid $GROUP_ID cfgame \
-  && adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID cfgame
+  && adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID cfgame \
+  && usermod -g sudo cfgame
 
 USER $USER_ID
+
+# Send "ctrl-c"-like signal when stopping
+STOPSIGNAL SIGINT
+
+# Upgrade RubyGems and install required Bundler version
+RUN gem update --system && \
+    gem install bundler:2.2.0
+
 WORKDIR $APP_HOME
 
 # Add our Gemfile and install gems
 ADD Gemfile* $APP_HOME/
-RUN gem install bundler:2.2.0
+
 RUN bundle install
 
 # Copy over our application code
