@@ -7,6 +7,10 @@ import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
+import 'materialize-css/dist/js/materialize'
+
+require("jquery")
+require("packs/game_js/cf_game")
 
 Rails.start()
 Turbolinks.start()
