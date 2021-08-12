@@ -1,3 +1,13 @@
-@import "materialize/components/color-variables";
-$primary-color: color("blue", "lighten-2") !default;
-$secondary-color: color("yellow", "base") !default;
+
+.dot {
+  height: 99%;
+  width: 99%;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.square{
+  height: 80px;
+  width: 80px;
+  margin-left: 5px;
+}

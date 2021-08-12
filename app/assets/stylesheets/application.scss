@@ -1,2 +1,14 @@
-@import 'game_scss/cf_game.scss';
+/*
+ *= require_tree ./game_scss
+ *= require_self
+*/
+
+@import "materialize/components/color-variables";
+$primary-color: color("blue", "lighten-2") !default;
+$secondary-color: color("light-blue", "darken-4") !default;
 @import 'materialize';
+
+
+#root {
+  min-height: 70vh;
+}
