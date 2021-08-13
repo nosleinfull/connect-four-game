@@ -13,7 +13,7 @@ class PlayerMovesController < ApplicationController
 
     ActionCable.server.broadcast(
       "game_session_channel_#{@game.id}",
-      data: 'player_moves'
+      data: 'change_board'
     )
   end
 
