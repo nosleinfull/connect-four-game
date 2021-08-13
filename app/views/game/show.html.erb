@@ -12,29 +12,7 @@
 <main>
 	<div id="root">
 		<div id="game-session-id" data-game-session-id="<%= @game.id %>" data-player-id="<%= current_player %>">
-			<!-- Game Partial START -->
-			<div class="container center" style="margin-top: 20px; margin-bottom: 20px;">
-				<% for i in 0..5 %>
-					<div class="row" style="margin-bottom: auto;">
-						<% for j in 0..6 %>
-							<% if j == 0 %>
-								<div class="col s1 offset-s2">
-									<div class="card square">
-										<div class="dot blue"></div>
-									</div>
-								</div>
-							<% else %>
-								<div class="col s1">
-									<div class="card square">
-										<div class="dot red"></div>
-									</div>
-								</div>
-							<% end %>
-						<% end %>
-					</div>
-				<% end %>
-			</div>
-			<!-- Game Partial END -->
+			<%= render partial: "game_views/#{@game.game_board_partial}", locals: { game: @game } %>
 		</div>
 	</div>
 </main>

@@ -1,0 +1,22 @@
+<div class="container center" style="margin-top: 20px; margin-bottom: 20px;">
+	<% game.session_data['board_matrix'].each_with_index do |row, row_index| %>
+
+		<div class="row" style="margin-bottom: auto;">
+			<% row.each_with_index do |value, col_index| %>
+				<% if col_index.zero? %>
+					<div class="col s1 offset-s2 square-container">
+						<div class="card square">
+							<div class="dot dot_type_<%= value %>"><%= "#{row_index} - #{col_index}" %></div>
+						</div>
+					</div>
+				<% else %>
+					<div class="col s1 square-container">
+						<div class="card square">
+							<div class="dot dot_type_<%= value %>"><%= "#{row_index} - #{col_index}" %></div>
+						</div>
+					</div>
+				<% end %>
+			<% end %>
+		</div>
+	<% end %>
+</div>
