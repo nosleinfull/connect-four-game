@@ -13,7 +13,7 @@ class PlayerMovesController < ApplicationController
 
     ActionCable.server.broadcast(
       "game_session_channel_#{@game.id}",
-      data: "Player #{params[:player_id]} made a move!"
+      data: 'player_moves'
     )
   end
 

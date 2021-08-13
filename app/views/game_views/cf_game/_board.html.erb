@@ -19,4 +19,13 @@
 			<% end %>
 		</div>
 	<% end %>
+
+	<div>
+		<% if player.to_i == game.session_data['player_turn'] %>
+			<a class="<%= player.to_i == game.player_one_id ? 'player_one' : 'player_two'%>"> Your turn! </a>
+		<% else %>
+			<a class="<%= player.to_i == game.player_one_id ? 'player_two' : 'player_one'%>"> Opponent turn </a>
+		<% end %>
+		<!-- <a class="blue-text"> Opponent turn </a> -->
+	</div>
 </div>

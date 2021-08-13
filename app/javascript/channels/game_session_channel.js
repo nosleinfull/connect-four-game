@@ -17,7 +17,7 @@ function bindClickSquareEvent(){
 }
 
 document.addEventListener('turbolinks:load', () => {
-
+  bindClickSquareEvent();
   const element = document.getElementById('game-session-id');
   const game_session_id = element.getAttribute('data-game-session-id');
   const player_id = element.getAttribute('data-player-id');
@@ -35,8 +35,10 @@ document.addEventListener('turbolinks:load', () => {
 
     received(data) {
       // Called when there's incoming data on the websocket for this channel
-      $('.main_board_container').load('/game/' + player_id + '/board', bindClickSquareEvent);
-
+      if (data['data'] == 'player_moves'){
+        console.log('board updated!')
+        $('.main_board_container').load('/game/' + player_id + '/board', bindClickSquareEvent);
+      }
       console.log(data)
     }
   });
