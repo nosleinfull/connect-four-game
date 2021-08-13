@@ -23,6 +23,7 @@ module CfGame
         player_one_id: player_one_id,
         player_two_id: player_two_id,
         session_data: {
+          game_board_partial: 'cf_game/board',
           board_matrix: board_matrix.to_a
         }
       )

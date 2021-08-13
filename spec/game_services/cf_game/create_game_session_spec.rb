@@ -14,6 +14,12 @@ RSpec.describe CfGame::CreateGameSession do
         ).to eq(Matrix.build(6, 7) { 0 }.to_a)
       end
 
+      it 'creates a game session with partial view injection' do
+        expect(
+          subject.session_data['game_board_partial']
+        ).to eq('cf_game/board')
+      end
+
       it 'creates a game session with player one' do
         expect(
           subject.player_one_id
