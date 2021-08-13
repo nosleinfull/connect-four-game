@@ -2,14 +2,14 @@ import consumer from "./consumer"
 
 function bindClickSquareEvent(){
   $(document).find(".square").on('click', function(){
-    var col = $(this).attr('data-col');
+    var column = $(this).attr('data-col');
     var player_id = $(this).attr('data-player-id');
     var url = $(this).attr('data-player-moves-url');
 
     $.post(url, {
       authenticity_token: $(document).find('meta[name="csrf-token"]').attr('content'),
       player_id: player_id,
-      column: col
+      player_moves: { column: column }
     }, function(data, status) {
       console.log('Server data ' + data + 'status: ' + status);
     });

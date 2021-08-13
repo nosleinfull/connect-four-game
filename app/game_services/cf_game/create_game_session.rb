@@ -24,7 +24,10 @@ module CfGame
         player_two_id: player_two_id,
         session_data: {
           game_board_partial: 'cf_game/board',
-          board_matrix: board_matrix.to_a
+          player_move_processor: 'CfGame::ProcessPlayerMoves',
+          board_matrix: board_matrix.to_a,
+          player_turn: (rand 1..2),
+          game_status: ''
         }
       )
     end

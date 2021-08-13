@@ -31,6 +31,12 @@ RSpec.describe CfGame::CreateGameSession do
           subject.player_two_id
         ).to eq(2)
       end
+
+      it 'creates a game session with player turn tag' do
+        expect(
+          subject.session_data['player_turn']
+        ).to eq(2).or eq(1)
+      end
     end
   end
 end
