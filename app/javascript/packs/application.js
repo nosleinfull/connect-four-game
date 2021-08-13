@@ -12,6 +12,23 @@ import 'materialize-css/dist/js/materialize'
 require("jquery")
 require("packs/game_js/cf_game")
 
+function bindClickResetGameButton(){
+  $(document).find(".reset-game-btn").on('click', function(){
+
+    var url = $(this).attr('data-update-game-url');
+
+    $.ajax({
+       type: 'PATCH',
+       url: url,
+       data: { authenticity_token: $(document).find('meta[name="csrf-token"]').attr('content'), reset: true }
+    });
+  });
+}
+
+$(document).on('turbolinks:load', function() {
+  bindClickResetGameButton();
+});
+
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()

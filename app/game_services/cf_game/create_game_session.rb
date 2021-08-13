@@ -25,6 +25,7 @@ module CfGame
         session_data: {
           game_board_partial: 'cf_game/board',
           player_move_processor: 'CfGame::ProcessPlayerMoves',
+          game_updator: 'CfGame::UpdateGameSession',
           board_matrix: board_matrix.to_a,
           player_turn: (rand 1..2),
           game_status: ''
