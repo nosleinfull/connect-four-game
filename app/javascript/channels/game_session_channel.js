@@ -1,5 +1,21 @@
 import consumer from "./consumer"
 
+function bindClickSquareEvent(){
+  $(document).find(".square").on('click', function(){
+    var col = $(this).attr('data-col');
+    var player_id = $(this).attr('data-player-id');
+    var url = $(this).attr('data-player-moves-url');
+
+    $.post(url, {
+      authenticity_token: $(document).find('meta[name="csrf-token"]').attr('content'),
+      player_id: player_id,
+      column: col
+    }, function(data, status) {
+      console.log('Server data ' + data + 'status: ' + status);
+    });
+  });
+}
+
 document.addEventListener('turbolinks:load', () => {
 
   const element = document.getElementById('game-session-id');
@@ -19,6 +35,8 @@ document.addEventListener('turbolinks:load', () => {
 
     received(data) {
       // Called when there's incoming data on the websocket for this channel
+      $('.main_board_container').load('/game/' + player_id + '/board', bindClickSquareEvent);
+
       console.log(data)
     }
   });

@@ -11,8 +11,8 @@
 
 <main>
 	<div id="root">
-		<div id="game-session-id" data-game-session-id="<%= @game.id %>" data-player-id="<%= current_player %>">
-			<%= render partial: "game_views/#{@game.game_board_partial}", locals: { game: @game } %>
+		<div id="game-session-id" class="main_board_container" data-game-session-id="<%= @game.id %>" data-player-id="<%= current_player %>">
+			<%= render partial: "game_views/#{@game.game_board_partial}", locals: { game: @game, player: current_player } %>
 		</div>
 	</div>
 </main>
@@ -36,7 +36,7 @@
 	</div>
 	<div class="footer-copyright">
 		<div class="container">
-			© 2021 Made by s2
+			© 2021 Made with s2
 			<a class="grey-text text-lighten-4 right" target="_blank" href="https://www.linkedin.com/in/nielson-fernandes-silva-01196692"> Nielson - Software Engineer profile </a>
 		</div>
 	</div>
