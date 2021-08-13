@@ -11,8 +11,8 @@
 
 <main>
 	<div id="root">
-		<div id="game-session-id" data-game-session-id="<%= @game.id %>" data-player-id="<%= current_player %>">
-			<%= render partial: "game_views/#{@game.game_board_partial}", locals: { game: @game } %>
+		<div id="game-session-id" class="main_board_container" data-game-session-id="<%= @game.id %>" data-player-id="<%= current_player %>">
+			<%= render partial: "game_views/#{@game.game_board_partial}", locals: { game: @game, player: current_player } %>
 		</div>
 	</div>
 </main>

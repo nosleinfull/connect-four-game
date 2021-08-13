@@ -8,7 +8,13 @@ module CfGame
       @game = game
     end
 
-    def call; end
+    def call
+      # TODO: Implements Player movements and call won detection
+      matrix = @game.session_data['board_matrix']
+      matrix[rand 0..5][rand 0..6] = rand 1..2
+      @game.session_data['board_matrix'] = matrix
+      @game.save!
+    end
 
     private
 
