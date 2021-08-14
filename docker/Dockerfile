@@ -36,6 +36,8 @@ RUN mkdir -p "$APP_HOME" \
   && adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID cfgame \
   && usermod -g sudo cfgame
 
+RUN chown -R cfgame:cfgame "$APP_HOME"
+
 USER $USER_ID
 
 # Send "ctrl-c"-like signal when stopping

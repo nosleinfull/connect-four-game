@@ -48,11 +48,18 @@ services:
       - .docker/.irbrc:/home/billing/.irbrc:ro
       - .docker/.pryrc:/home/billing/.pryrc:ro
 
-  app:
+  app_prod:
     <<: *app_defaults
     command: bash -c "rm -f shared/pids/puma.pid && bundle exec rails s -b '0.0.0.0'"
+    environment:
+      RAILS_ENV: 'production'
+      REDIS_URL: 'redis://redis:6379/12'
+      DB_HOST: 'postgres'
+      DB_USER: 'postgres'
+      DB_NAME: 'cfgame'
     ports:
-      - "3010:3000"
+      - "8080:3000"
+
 
   runner:
     <<: *app_defaults
