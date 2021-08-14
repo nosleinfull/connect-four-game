@@ -6,13 +6,13 @@
 				<% if col_index.zero? %>
 					<div class="col s1 offset-s2 square-container">
 						<div class="card square" data-player-id="<%= player %>" data-col="<%= col_index %>" data-player-moves-url="<%= game_player_moves_path(player) %>">
-							<div class="dot dot_type_<%= value %>"></div>
+							<div class="dot dot_type_<%= value %><%= '_win' if game.session_data['win_element_array']&.include?([row_index, col_index]) %>"></div>
 						</div>
 					</div>
 				<% else %>
 					<div class="col s1 square-container">
 						<div class="card square" data-player-id="<%= player %>" data-col="<%= col_index %>" data-player-moves-url="<%= game_player_moves_path(player) %>">
-							<div class="dot dot_type_<%= value %>"></div>
+							<div class="dot dot_type_<%= value %><%= '_win' if game.session_data['win_element_array']&.include?([row_index, col_index]) %>"></div>
 						</div>
 					</div>
 				<% end %>
