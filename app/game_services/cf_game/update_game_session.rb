@@ -23,7 +23,8 @@ module CfGame
       game.session_data.update(
         board_matrix: board_matrix.to_a,
         player_turn: (rand 1..2),
-        game_status: ''
+        game_status: '',
+        win_element_array: nil
       )
       game.save
     end

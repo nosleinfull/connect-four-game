@@ -3,7 +3,7 @@
 require 'matrix'
 
 module CfGame
-  # TODO: Tech debts here! Needs refactoring and coding of unit tests(drawing)
+  # TODO: Tech debts here! Needs refactoring and coding of unit tests in win_element_array
   class DetectGameWon
     def initialize(game:)
       @game = game
@@ -17,12 +17,10 @@ module CfGame
     private
 
     attr_accessor :game
-    attr_reader :matrix_with_win_draw
 
     def setup_win
-      # TODO: We can identify the win inside de matrix (changing color in front-end)
       game.session_data['game_status'] = 'won'
-      game.session_data['board_matrix'] = matrix_with_win_draw
+      game.session_data['win_element_array'] = win_element_array
       game.session_data['winner'] = last_move_value == 1 ? 'player_one' : 'player_two'
       game.save
     end
@@ -32,12 +30,12 @@ module CfGame
       game.save
     end
 
-    def matrix
-      @matrix ||= game.session_data['board_matrix']
+    def win_element_array
+      @win_element_array ||= []
     end
 
-    def init_matrix_for_win_draw(original_matrix)
-      @matrix_with_win_draw = original_matrix.deep_dup
+    def matrix
+      @matrix ||= game.session_data['board_matrix']
     end
 
     def column_matrix
@@ -80,12 +78,14 @@ module CfGame
       matched_number = 0
       row, col = find_min_backward_slash
 
-      init_matrix_for_win_draw(matrix)
-
       while row <= 5 && col <= 6
         matrix[row][col] == last_move_value ? matched_number += 1 : matched_number = 0
 
-        matrix_with_win_draw[row][col] = 3 if matched_number >= 1
+        if matched_number >= 1
+          win_element_array << [row, col]
+        else
+          win_element_array.clear
+        end
 
         return true if matched_number == 4 && !last_move_value.zero?
 
@@ -100,12 +100,14 @@ module CfGame
       matched_number = 0
       row, col = find_min_forward_slash
 
-      init_matrix_for_win_draw(matrix)
-
       while row <= 5 && col >= 0
         matrix[row][col] == last_move_value ? matched_number += 1 : matched_number = 0
 
-        matrix_with_win_draw[row][col] = 3 if matched_number >= 1
+        if matched_number >= 1
+          win_element_array << [row, col]
+        else
+          win_element_array.clear
+        end
 
         return true if matched_number == 4 && !last_move_value.zero?
 
@@ -116,32 +118,28 @@ module CfGame
     end
 
     def won_horizontal?
-      init_matrix_for_win_draw(matrix)
-      result = won_array?(matrix[last_row], last_row)
-
-      return true if result
+      return true if won_array?(matrix[last_row], last_row, :horizontal)
 
       false
     end
 
     def won_vertical?
-      init_matrix_for_win_draw(column_matrix)
-
-      if won_array?(column_matrix[last_col], last_col)
-        init_matrix_for_win_draw(Matrix[*matrix_with_win_draw].transpose.to_a)
-
-        return true
-      end
+      return true if won_array?(column_matrix[last_col], last_col, :vertical)
 
       false
     end
 
-    def won_array?(array, row)
+    def won_array?(array, row, type)
       matched_number = 0
       array.each_with_index do |value, index|
         value == last_move_value ? matched_number += 1 : matched_number = 0
 
-        matrix_with_win_draw[row][index] = 3 if matched_number >= 1
+        if matched_number >= 1
+          win_element_array << [row, index] if type == :horizontal
+          win_element_array << [index, row] if type == :vertical
+        else
+          win_element_array.clear
+        end
 
         return true if matched_number == 4 && !last_move_value.zero?
       end
