@@ -11,6 +11,7 @@ module CfGame
       @column = @player_moves.try { |moves| moves[:column].to_i }
     end
 
+    # TODO: Tech debts here! Needs refactoring and coding of unit tests
     def call
       return false if player_id.zero?
       return false if column.blank?
@@ -19,11 +20,14 @@ module CfGame
       return false unless game.session_data['game_status'].blank?
 
       matrix = game.session_data['board_matrix']
-      matrix[last_filled_row][column] = player_matrix_id
+      matrix[row_to_be_filled][column] = player_matrix_id
       game.session_data['board_matrix'] = matrix
       game.session_data['player_turn'] = player_matrix_id == 1 ? 2 : 1
-      game.save!
-      # TODO: Call Won Detection services
+      game.session_data['last_row'] = row_to_be_filled
+      game.session_data['last_col'] = column
+      result = game.save!
+      detect_game_won
+      result
     end
 
     private
@@ -34,8 +38,8 @@ module CfGame
       2
     end
 
-    def last_filled_row
-      @last_filled_row ||= (target_column.find_index { |v| [1, 2].include? v } || target_column.length) - 1
+    def row_to_be_filled
+      @row_to_be_filled ||= (target_column.find_index { |v| [1, 2].include? v } || target_column.length) - 1
     end
 
     def column_matrix
@@ -44,6 +48,10 @@ module CfGame
 
     def target_column
       @target_column = column_matrix[column]
+    end
+
+    def detect_game_won
+      CfGame::DetectGameWon.new(game: game).call
     end
 
     attr_accessor :player_id, :player_moves, :game, :column
