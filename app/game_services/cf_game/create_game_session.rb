@@ -28,7 +28,7 @@ module CfGame
           game_updator: 'CfGame::UpdateGameSession',
           board_matrix: board_matrix.to_a,
           player_turn: (rand 1..2),
-          game_status: ''
+          game_status: nil
         }
       )
     end

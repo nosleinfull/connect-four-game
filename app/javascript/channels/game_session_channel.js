@@ -18,10 +18,7 @@ document.addEventListener('turbolinks:load', () => {
 
     received(data) {
       // Called when there's incoming data on the websocket for this channel
-      if (data['data'] == 'change_board'){
-        console.log('board updated!')
-        $('.main_board_container').load('/game/' + player_id + '/board');
-      }
+      $('.main_board_container').load('/game/' + player_id + '/board');
       console.log(data)
     }
   });
