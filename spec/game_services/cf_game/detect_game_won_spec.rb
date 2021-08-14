@@ -144,5 +144,51 @@ RSpec.describe CfGame::DetectGameWon do
         end
       end
     end
+
+    context 'Horizontal detection' do
+      let(:matrix) do
+        [[0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 2, 0, 0, 0],
+         [0, 2, 2, 2, 2, 0, 0],
+         [0, 0, 0, 2, 0, 0, 0],
+         [0, 0, 0, 1, 1, 1, 1],
+         [0, 0, 0, 0, 0, 0, 0]]
+      end
+
+      context 'When there are horizontal fills' do
+        before do
+          game.session_data['board_matrix'] = matrix
+        end
+
+        @wins = [[4, 4], [2, 4], [2, 2], [4, 5], [2, 1], [4, 3], [2, 3], [4, 6]]
+        @matrix = [[0, 0, 0, 0, 0, 0, 0],
+                   [0, 0, 0, 2, 0, 0, 0],
+                   [0, 2, 2, 2, 2, 0, 0],
+                   [0, 0, 0, 2, 0, 0, 0],
+                   [0, 0, 0, 1, 1, 1, 1],
+                   [0, 0, 0, 0, 0, 0, 0]]
+
+        @matrix.each_with_index do |row, row_index|
+          row.each_with_index do |_, col_index|
+            if @wins.include?([row_index, col_index])
+              it "detect horizontal won if last move was on #{[row_index, col_index]}" do
+                game.session_data['last_row'] = row_index
+                game.session_data['last_col'] = col_index
+                subject
+                @result = [row_index, col_index]
+                expect(game.reload.session_data['game_status']).to eq('won')
+              end
+            else
+              it "don't detect horizontal won if last move was on #{[row_index, col_index]}" do
+                game.session_data['last_row'] = row_index
+                game.session_data['last_col'] = col_index
+                subject
+                expect(game.reload.session_data['game_status']).to eq(nil)
+              end
+            end
+          end
+        end
+      end
+    end
   end
 end
