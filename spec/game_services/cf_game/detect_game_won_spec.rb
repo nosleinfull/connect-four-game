@@ -83,7 +83,6 @@ RSpec.describe CfGame::DetectGameWon do
                 game.session_data['last_row'] = row_index
                 game.session_data['last_col'] = col_index
                 subject
-                @result = [row_index, col_index]
                 expect(game.reload.session_data['game_status']).to eq('won')
               end
             else
@@ -129,7 +128,6 @@ RSpec.describe CfGame::DetectGameWon do
                 game.session_data['last_row'] = row_index
                 game.session_data['last_col'] = col_index
                 subject
-                @result = [row_index, col_index]
                 expect(game.reload.session_data['game_status']).to eq('won')
               end
             else
@@ -175,7 +173,6 @@ RSpec.describe CfGame::DetectGameWon do
                 game.session_data['last_row'] = row_index
                 game.session_data['last_col'] = col_index
                 subject
-                @result = [row_index, col_index]
                 expect(game.reload.session_data['game_status']).to eq('won')
               end
             else
@@ -187,6 +184,30 @@ RSpec.describe CfGame::DetectGameWon do
               end
             end
           end
+        end
+      end
+    end
+
+    context 'Draw detection' do
+      let(:matrix) do
+        [[1, 2, 1, 2, 1, 2, 1],
+         [0, 0, 0, 2, 0, 0, 0],
+         [0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 2, 0, 0, 0],
+         [0, 0, 0, 1, 0, 1, 0],
+         [0, 0, 0, 0, 0, 0, 0]]
+      end
+
+      context 'When the game draw' do
+        before do
+          game.session_data['board_matrix'] = matrix
+        end
+
+        it 'detect game draw' do
+          game.session_data['last_row'] = rand 0..5
+          game.session_data['last_col'] = rand 0..6
+          subject
+          expect(game.reload.session_data['game_status']).to eq('draw')
         end
       end
     end
