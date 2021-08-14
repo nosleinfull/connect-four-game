@@ -11,7 +11,7 @@ module CfGame
       @column = @player_moves.try { |moves| moves[:column].to_i }
     end
 
-    # TODO: tech debt here. Needs refactoring and united tests
+    # TODO: Tech debts here! Needs refactoring and coding of unit tests
     def call
       return false if player_id.zero?
       return false if column.blank?

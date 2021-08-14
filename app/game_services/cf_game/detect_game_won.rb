@@ -18,6 +18,7 @@ module CfGame
     attr_accessor :game
 
     def setup_win
+      # TODO: We can identify the win inside de matrix (changing color in front-end)
       game.session_data['game_status'] = 'won'
       game.session_data['winner'] = last_move_value == 1 ? 'player_one' : 'player_two'
       game.save
@@ -74,37 +75,40 @@ module CfGame
 
       while row <= 5 && col <= 6
         matrix[row][col] == last_move_value ? matched_number += 1 : matched_number = 0
+
+        return true if matched_number == 4 && !last_move_value.zero?
+
         row += 1
         col += 1
       end
 
-      matched_number >= 4 && !last_move_value.zero?
+      false
     end
 
     def won_forward_slash?
       matched_number = 0
       row, col = find_min_forward_slash
 
-      while row <= 5 && col.positive?
+      while row <= 5 && col >= 0
         matrix[row][col] == last_move_value ? matched_number += 1 : matched_number = 0
+
+        return true if matched_number == 4 && !last_move_value.zero?
+
         row += 1
         col -= 1
-      end
-
-      matched_number >= 4 && !last_move_value.zero?
-    end
-
-    def won_horizontal?
-      matrix.each do |array|
-        return true if won_array?(array)
       end
       false
     end
 
+    def won_horizontal?
+      return true if won_array?(matrix[last_row])
+
+      false
+    end
+
     def won_vertical?
-      column_matrix.each do |array|
-        return true if won_array?(array)
-      end
+      return true if won_array?(column_matrix[last_col])
+
       false
     end
 
@@ -112,11 +116,14 @@ module CfGame
       matched_number = 0
       array.each do |value|
         value == last_move_value ? matched_number += 1 : matched_number = 0
+        return true if matched_number == 4 && !last_move_value.zero?
       end
-      matched_number >= 4 && !last_move_value.zero?
+
+      false
     end
 
     def won_game?
+      #             O(NxM)          O(N)             O(N)                O(N)   = O(NXM) + O(N)
       @won_game ||= [won_vertical?, won_horizontal?, won_forward_slash?, won_backward_slash?].any?
     end
 
