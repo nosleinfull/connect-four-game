@@ -3,7 +3,7 @@
 require 'matrix'
 
 module CfGame
-  # TODO: Tech debts here! Needs refactoring and coding of unit tests(drawing)
+  # TODO: Tech debts here! Needs refactoring and coding of unit tests in win_element_array
   class DetectGameWon
     def initialize(game:)
       @game = game
@@ -19,7 +19,6 @@ module CfGame
     attr_accessor :game
 
     def setup_win
-      # TODO: We can identify the win inside de matrix (changing color in front-end)
       game.session_data['game_status'] = 'won'
       game.session_data['win_element_array'] = win_element_array
       game.session_data['winner'] = last_move_value == 1 ? 'player_one' : 'player_two'
