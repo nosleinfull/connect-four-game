@@ -22,7 +22,9 @@
 
   <div>
     <% if game.session_data['game_status'].blank? %>
-      <% if player.to_i == game.session_data['player_turn'] %>
+      <% if game.session_data['player_turn'] == 1 && player.to_i == game.player_one_id %>
+        <a class="<%= player.to_i == game.player_one_id ? 'player_one' : 'player_two'%>"> Your turn! </a>
+      <% elsif game.session_data['player_turn'] == 2 && player.to_i == game.player_two_id %>
         <a class="<%= player.to_i == game.player_one_id ? 'player_one' : 'player_two'%>"> Your turn! </a>
       <% else %>
         <a class="<%= player.to_i == game.player_one_id ? 'player_two' : 'player_one'%>"> Opponent turn </a>
