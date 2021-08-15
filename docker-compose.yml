@@ -64,6 +64,7 @@ services:
   runner:
     <<: *app_defaults
     command: /bin/bash
+    restart: always
     ports:
       - '3000:3000'
       - '7433:7433'
