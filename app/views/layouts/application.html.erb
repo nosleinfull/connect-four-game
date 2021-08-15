@@ -14,7 +14,7 @@
     <header>
       <nav>
         <div class="nav-wrapper">
-          <a href="#" class="brand-logo" style="margin-left: 10px;"> Connect Four Game</a>
+          <a class="brand-logo" style="margin-left: 10px;" href="<%= root_url %>"> Connect Four Game</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
             <% if current_player.present? %>
               <li><a class="reset-game-btn" data-update-game-url="<%= game_path(current_player) %>"> Reset Game </a></li>
