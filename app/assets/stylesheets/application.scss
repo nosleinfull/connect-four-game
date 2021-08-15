@@ -1,6 +1,7 @@
 /*
- *= require_tree ./game_scss
+ *= require_tree .
  *= require_self
+ *= require_tree ./game_scss
 */
 
 @import "materialize/components/color-variables";

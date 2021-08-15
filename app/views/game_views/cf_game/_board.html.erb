@@ -1,36 +1,36 @@
 <div class="container center" style="margin-top: 20px; margin-bottom: 20px;">
-	<% game.session_data['board_matrix'].each_with_index do |row, row_index| %>
+  <% game.session_data['board_matrix'].each_with_index do |row, row_index| %>
 
-		<div class="row" style="margin-bottom: auto;">
-			<% row.each_with_index do |value, col_index| %>
-				<% if col_index.zero? %>
-					<div class="col s1 offset-s2 square-container">
-						<div class="card square" data-player-id="<%= player %>" data-col="<%= col_index %>" data-player-moves-url="<%= game_player_moves_path(player) %>">
-							<div class="dot dot_type_<%= value %><%= '_win' if game.session_data['win_element_array']&.include?([row_index, col_index]) %>"></div>
-						</div>
-					</div>
-				<% else %>
-					<div class="col s1 square-container">
-						<div class="card square" data-player-id="<%= player %>" data-col="<%= col_index %>" data-player-moves-url="<%= game_player_moves_path(player) %>">
-							<div class="dot dot_type_<%= value %><%= '_win' if game.session_data['win_element_array']&.include?([row_index, col_index]) %>"></div>
-						</div>
-					</div>
-				<% end %>
-			<% end %>
-		</div>
-	<% end %>
+    <div class="row" style="margin-bottom: auto;">
+      <% row.each_with_index do |value, col_index| %>
+        <% if col_index.zero? %>
+          <div class="col s1 offset-s2 square-container">
+            <div class="card square" data-player-id="<%= player %>" data-col="<%= col_index %>" data-player-moves-url="<%= game_player_moves_path(player) %>">
+              <div class="dot dot_type_<%= value %><%= '_win' if game.session_data['win_element_array']&.include?([row_index, col_index]) %>"></div>
+            </div>
+          </div>
+        <% else %>
+          <div class="col s1 square-container">
+            <div class="card square" data-player-id="<%= player %>" data-col="<%= col_index %>" data-player-moves-url="<%= game_player_moves_path(player) %>">
+              <div class="dot dot_type_<%= value %><%= '_win' if game.session_data['win_element_array']&.include?([row_index, col_index]) %>"></div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
 
-	<div>
-		<% if game.session_data['game_status'].blank? %>
-			<% if player.to_i == game.session_data['player_turn'] %>
-				<a class="<%= player.to_i == game.player_one_id ? 'player_one' : 'player_two'%>"> Your turn! </a>
-			<% else %>
-				<a class="<%= player.to_i == game.player_one_id ? 'player_two' : 'player_one'%>"> Opponent turn </a>
-			<% end %>
-		<% elsif game.session_data['game_status'] == 'won' %>
-			<a class="<%= game.session_data['winner'] %>"> <%= "#{game.session_data['winner'].split('_').map(&:capitalize).join(' ')} wined!"%> </a>
-		<% else %>
-			<a class=" grey-text"> It's a draw! </a>
-		<% end %>
-	</div>
+  <div>
+    <% if game.session_data['game_status'].blank? %>
+      <% if player.to_i == game.session_data['player_turn'] %>
+        <a class="<%= player.to_i == game.player_one_id ? 'player_one' : 'player_two'%>"> Your turn! </a>
+      <% else %>
+        <a class="<%= player.to_i == game.player_one_id ? 'player_two' : 'player_one'%>"> Opponent turn </a>
+      <% end %>
+    <% elsif game.session_data['game_status'] == 'won' %>
+      <a class="<%= game.session_data['winner'] %>"> <%= "#{game.session_data['winner'].split('_').map(&:capitalize).join(' ')} wined!"%> </a>
+    <% else %>
+      <a class=" grey-text"> It's a draw! </a>
+    <% end %>
+  </div>
 </div>
