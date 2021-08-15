@@ -88,10 +88,11 @@ app/
 - [ ] Integrations Tests
 - [ ] Finishing of some unit tests
 - [ ] Refactoring of some game_services/cf_game class
-- [ ] Design Active Jobs to allow bot players
+- [ ] Design Active Jobs to allow bot players and AI
 - [ ] Fixing of the Responsive Web Design
 - [ ] Allow players to create new game sessions, sharing game session links and login of players.
 - [ ] Optimizations, like move some server-side rendering to front-end and improve API (add HTTP code responses and etc)
+- [ ] CSS animations
 
 
 ## Localhost initializing
