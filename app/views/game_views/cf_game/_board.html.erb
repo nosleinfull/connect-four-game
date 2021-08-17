@@ -1,7 +1,7 @@
 <div class="container center" style="margin-top: 20px; margin-bottom: 20px;">
   <% game.session_data['board_matrix'].each_with_index do |row, row_index| %>
 
-    <div class="row" style="margin-bottom: auto;">
+    <div class="row row-square" style="margin-bottom: auto;">
       <% row.each_with_index do |value, col_index| %>
         <% if col_index.zero? %>
           <div class="col s1 offset-s2 square-container">
