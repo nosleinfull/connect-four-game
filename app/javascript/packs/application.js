@@ -27,6 +27,7 @@ function bindClickResetGameButton(){
 
 $(document).on('turbolinks:load', function() {
   bindClickResetGameButton();
+  M.AutoInit();
 });
 
 Rails.start()
